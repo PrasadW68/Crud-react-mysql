@@ -5,7 +5,7 @@ import axios from "axios"
 const Add = () => {
 	const [book, setBook] = useState({
 		title: "",
-		desc: "",
+		description: "",
 		price: null,
 		cover: "",
 	})
@@ -37,9 +37,9 @@ const Add = () => {
 			/>
 			<input
 				type="text"
-				placeholder="desc"
+				placeholder="description"
 				onChange={handleChange}
-				name="desc"
+				name="description"
 			/>
 			<input
 				type="number"

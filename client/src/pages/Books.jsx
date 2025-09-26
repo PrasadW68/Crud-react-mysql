@@ -33,7 +33,7 @@ const Books = () => {
 					<div className="book" key={book.id}>
 						{book.cover && <img src="vite.svg" alt="" />}
 						<h2>{book.title}</h2>
-						<p>{book.desc}</p>
+						<p>{book.description}</p>
 						<span>{book.price}</span>
 						<button className="delete" onClick={() => handleDelete(book.id)}>
 							Delete

@@ -5,12 +5,9 @@ import "dotenv/config"
 
 const app = express()
 
-const db = mysql.createConnection({
-	host: process.env.HOST,
-	user: process.env.USER,
-	password: process.env.PASSWORD,
-	database: process.env.DATABASE,
-})
+const urlDb = `mysql://${process.env.MYSQLUSER}:${process.env.MYSQLPASSWORD}@${process.env.MYSQLDATABASE}@${process.env.MYSQLHOST}:${process.env.MYSQLPORT}/${process.env.MYSQL_DATABASE}`
+
+const db = mysql.createConnection(urlDb)
 
 app.use(express.json())
 app.use(cors())
@@ -27,11 +24,17 @@ app.get("/books", (req, res) => {
 })
 
 app.post("/books", (req, res) => {
-	const q = "INSERT INTO books (`title`, `desc`,`price`,`cover`) VALUES (?)"
-	const values = [req.body.title, req.body.desc, req.body.price, req.body.cover]
+	const q =
+		"INSERT INTO books (`title`, `description`,`price`,`cover`) VALUES (?)"
+	const values = [
+		req.body.title,
+		req.body.description,
+		req.body.price,
+		req.body.cover,
+	]
 	// const values = [
 	// 	"title from backend",
-	// 	"desc from backend",
+	// 	"description from backend",
 	// 	"cover pic from backend",
 	// ]
 	db.query(q, [values], (err, data) => {
@@ -53,9 +56,14 @@ app.delete("/books/:id", (req, res) => {
 app.put("/books/:id", (req, res) => {
 	const bookId = req.params.id
 	const q =
-		"UPDATE books SET `title` = ?,`desc` = ?,`price` = ?,`cover` = ? WHERE id = ?"
+		"UPDATE books SET `title` = ?,`description` = ?,`price` = ?,`cover` = ? WHERE id = ?"
 	console.log("put =", q)
-	const values = [req.body.title, req.body.desc, req.body.price, req.body.cover]
+	const values = [
+		req.body.title,
+		req.body.description,
+		req.body.price,
+		req.body.cover,
+	]
 
 	db.query(q, [...values, bookId], (err, data) => {
 		if (err) return res.json(err)
